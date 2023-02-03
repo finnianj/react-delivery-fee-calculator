@@ -9,7 +9,7 @@ function App() {
   const [time, setTime] = React.useState<String>("");
 
   const [subtotal, setSubtotal] = React.useState<GLfloat>(0);
-  const [total, setTotal] = React.useState<GLfloat>();
+  const [total, setTotal] = React.useState<GLfloat>(0);
   const [bulk_surcharge, setBulkSurcharge] = React.useState<GLfloat>(0);
   const [delivery_fee, setDeliveryFee] = React.useState<GLfloat>(0);
   const [surcharge, setSurcharge] = React.useState<GLfloat>(0);
@@ -28,29 +28,49 @@ function App() {
   }
 
   const calculateExtras = () => {
+    let sub = 0
+    let sur = 0
+    let del_fee = 0
+    let bul_fee = 0
+    let total = 0
+
     console.log("calculating total")
     if (cart_value === undefined || cart_value === 0) {
       return
     }
 
     setSubtotal(cart_value)
+    sub = cart_value
 
     if (cart_value <= 10) {
       setSurcharge(10 - cart_value)
+      sur = (10 - cart_value)
     }
 
     setDeliveryFee(Math.ceil(delivery_distance / 500))
-    if (delivery_distance === 0) setDeliveryFee(1)
+    del_fee = (Math.ceil(delivery_distance / 500))
+
+    if (delivery_distance === 0) {
+      setDeliveryFee(1)
+      del_fee = 1
+    }
+
 
     if (quantity) {
         if (quantity > 4 && quantity < 12) {
           setBulkSurcharge((quantity - 4) * 0.5)
+          bul_fee = (quantity - 4) * 0.5
         } else if (quantity >= 12) {
           setBulkSurcharge((quantity - 4) * 0.5 + 1.2)
+          bul_fee = (quantity - 4) * 0.5 + 1.2
+        } else if (quantity <= 4) {
+          setBulkSurcharge(0)
+          bul_fee = 0
         }
     }
-    let total = subtotal + surcharge + delivery_fee
-    setTotal(total)
+    total = (sub + sur + del_fee + bul_fee)
+    console.log(sub, sur, del_fee, bul_fee)
+    setTotal(total);
   }
 
 
