@@ -5,12 +5,14 @@ function App() {
 
   const [cart_value, setCartValue] = React.useState<GLfloat>();
   const [delivery_distance, setDeliveryDistance] = React.useState<number>(0);
-  const [quantity, setQuantity] = React.useState<Number>();
+  const [quantity, setQuantity] = React.useState<number>();
   const [time, setTime] = React.useState<String>("");
+
   const [subtotal, setSubtotal] = React.useState<GLfloat>();
   const [total, setTotal] = React.useState<GLfloat>();
-  const [delivery_fee, setDeliveryFee] = React.useState<GLfloat>();
-  const [surcharge, setSurcharge] = React.useState<GLfloat>();
+  const [bulk_surcharge, setBulkSurcharge] = React.useState<GLfloat>(0);
+  const [delivery_fee, setDeliveryFee] = React.useState<GLfloat>(0);
+  const [surcharge, setSurcharge] = React.useState<GLfloat>(0);
 
   const handleValue = (event: React.FormEvent<HTMLInputElement>) => {
     setCartValue(parseFloat(event.currentTarget.value))
@@ -27,7 +29,7 @@ function App() {
 
   const calculateTotal = () => {
     console.log("calculating total")
-    if (cart_value === undefined) {
+    if (cart_value === undefined || cart_value === 0) {
       return
     }
 
@@ -37,10 +39,20 @@ function App() {
       setSurcharge(10 - cart_value)
     }
 
-    let distance_fee = Math.ceil(delivery_distance / 500)
-    if (delivery_distance === 0) distance_fee = 1
+    setDeliveryFee(Math.ceil(delivery_distance / 500))
+    if (delivery_distance === 0) setDeliveryFee(1)
 
-    console.log(distance_fee)
+    if (quantity) {
+        if (quantity > 4 && quantity < 12) {
+          setBulkSurcharge((quantity - 4) * 0.5)
+        } else if (quantity >= 12) {
+          setBulkSurcharge((quantity - 4) * 0.5 + 1.2)
+        }
+    }
+
+
+
+    console.log(delivery_fee)
   }
 
 
@@ -72,6 +84,7 @@ function App() {
       Sub-total: €{subtotal} ---
       Surcharge: €{surcharge} ---
       Delivery Fee: €{delivery_fee} ---
+      Bulk Surcharge: €{bulk_surcharge} ---
       Total: €{total} ---
       Distance: {delivery_distance}
       </>
