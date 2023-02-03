@@ -8,7 +8,7 @@ function App() {
   const [quantity, setQuantity] = React.useState<number>();
   const [time, setTime] = React.useState<String>("");
 
-  const [subtotal, setSubtotal] = React.useState<GLfloat>();
+  const [subtotal, setSubtotal] = React.useState<GLfloat>(0);
   const [total, setTotal] = React.useState<GLfloat>();
   const [bulk_surcharge, setBulkSurcharge] = React.useState<GLfloat>(0);
   const [delivery_fee, setDeliveryFee] = React.useState<GLfloat>(0);
@@ -27,7 +27,7 @@ function App() {
     setTime(event.currentTarget.value)
   }
 
-  const calculateTotal = () => {
+  const calculateExtras = () => {
     console.log("calculating total")
     if (cart_value === undefined || cart_value === 0) {
       return
@@ -35,7 +35,7 @@ function App() {
 
     setSubtotal(cart_value)
 
-    if (cart_value < 10) {
+    if (cart_value <= 10) {
       setSurcharge(10 - cart_value)
     }
 
@@ -49,11 +49,11 @@ function App() {
           setBulkSurcharge((quantity - 4) * 0.5 + 1.2)
         }
     }
-
-
-
-    console.log(delivery_fee)
+    let total = subtotal + surcharge + delivery_fee
+    setTotal(total)
   }
+
+
 
 
   return (
@@ -75,11 +75,11 @@ function App() {
         <h2>Date & Time</h2><input type="datetime-local" onChange={handleTime}></input>
       </div>
       <div id="button-holder">
-        <button id="calculate-button" className="btn btn-light" onClick={calculateTotal}>Calculate Delivery Price</button>
+        <button id="calculate-button" className="btn btn-light" onClick={calculateExtras}>Calculate <br></br> Delivery Price</button>
       </div>
       <div className="row-content">
         <h1>Total: </h1>
-        <h1 id="total">€ 5</h1>
+        <h1 id="total">€ {total}</h1>
       </div>
       Sub-total: €{subtotal} ---
       Surcharge: €{surcharge} ---
