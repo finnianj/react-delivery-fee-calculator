@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
 .App {
-  width: 30%;
+  width: 50%;
   height: 70vh;
   text-align: center;
   margin: 10vh auto;
@@ -41,6 +41,8 @@ input{
   background-color: rgb(252, 228, 92);
   border: none;
   font-weight: bolder;
+  height: 5vh;
+  width: 20vh;
 }
 
 #calculate-button:hover{
