@@ -35,7 +35,8 @@ function App() {
       details_display.innerHTML = "Free Delivery!"
       return
     }
-    
+    // I am defining temporary variables within this function to avoid waiting for state updates
+    // and resetting variables to avoid values being carried over from previous calculations.
     details_display.innerHTML = ""
     let cart = 0
     let delivery_fee = 0
@@ -43,9 +44,9 @@ function App() {
     let distance_sur = 0
     let bulk_sur = 0
     let rush = false
+    let result = 0
 
     console.log("Calculating total...")
-
 
     cart = cart_value
 
@@ -83,8 +84,8 @@ function App() {
       delivery_fee = 15
       details_display.innerHTML = "€15 - Maximum Delivery Fee"
     }
-
-    setTotal(cart + delivery_fee);
+    result = parseFloat((cart + delivery_fee).toFixed(2))
+    setTotal(result);
   }
 
 
