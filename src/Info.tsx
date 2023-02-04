@@ -8,13 +8,13 @@ function Info() {
     <div id="info">
       <h1>Hello there! 👋</h1>
       <p>
-        My name is Finn. I have been coding for about 5 months, so it's all very new. I've been learning React since Christmas and looking at Typescript in the last couple days.🐣
+        My name is Finn. I have been coding for about 5 months. I've been learning React since Christmas and looking at Typescript in the last few days. Woohoo! 🐣
       </p>
       <p>
-        But although I'm a rookie, I have never been so excited about learning. It's been pretty life-changing actually - I know this is what I want to do. I especially love Javascript and writing cool functions! 🪄
+        But although I'm a rookie, I have never been so excited about learning. It's been a pretty life-changing process actually. I am dicovering more everyday and having a great time as I go. I especially love functional programming and trying to write elegant logic with Javascript! 🪄
       </p>
       <p>
-        I'm sure there will be some great programmers applying, so to be honest, I would be very grateful just to get some feedback on my code if you have the time. 🙇‍♂️
+        I would love to meet for an interview if you think I might be a good fit for the internship. However, I'm sure there will be some great programmers applying, and to be honest, I would be very grateful just to get some feedback on my code. 🙇‍♂️
       </p>
       <h2>Thank you 😊</h2>
 

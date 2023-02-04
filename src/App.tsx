@@ -3,12 +3,12 @@ import './App.scss';
 
 function App() {
 
-  const [cart_value, setCartValue] = React.useState<GLfloat>();
+  const [cart_value, setCartValue] = React.useState<number>();
   const [delivery_distance, setDeliveryDistance] = React.useState<number>(0);
   const [quantity, setQuantity] = React.useState<number>();
   const [date, setDate] = React.useState<Date>();
 
-  const [total, setTotal] = React.useState<GLfloat>(0);
+  const [total, setTotal] = React.useState<number>(0);
 
   const details_display = document.getElementById('details') as HTMLElement
 
@@ -36,7 +36,6 @@ function App() {
       return
     }
     // I am defining temporary variables within this function to avoid waiting for state updates
-    // and resetting variables to avoid values being carried over from previous calculations.
     details_display.innerHTML = ""
     let cart = 0
     let delivery_fee = 0
@@ -45,7 +44,6 @@ function App() {
     let bulk_sur = 0
     let rush = false
 
-    console.log("Calculating total...")
 
     cart = cart_value
 
@@ -63,7 +61,7 @@ function App() {
       bulk_sur = (quantity - 4) * 0.5 + 1.2
     }
 
-    if (date && date.getDay() === 5 && date.getHours() >= 15 && date.getHours() <= 19) {
+    if (date && date.getDay() === 5 && date.getHours() >= 15 && date.getHours() < 19) {
       console.log("Rush hour!")
       rush = true
     }
