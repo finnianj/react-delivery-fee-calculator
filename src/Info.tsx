@@ -23,6 +23,7 @@ function Info() {
       </p>
       <div id="image_container">
         <img src="https://avatars.githubusercontent.com/u/114495682?s=400&u=5783c5b3cf5432e8118558cbd87292459dd232dc&v=4" id="me" alt="a silly bandana"></img>
+        <a href="https://www.linkedin.com/in/finnianj/" target="_blank" rel="noreferrer">LinkedIn</a>
       </div>
     </div>
   );
