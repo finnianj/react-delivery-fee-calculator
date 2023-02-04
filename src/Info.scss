@@ -4,3 +4,17 @@
   font-size: large;
   padding: 20px;
 }
+
+#me{
+  width: 20vh;
+  height: 20vh;
+  border-radius: 50%;
+  border: 6px solid #25a7df;
+  margin: 5vh auto;
+
+}
+
+#image_container{
+  display: flex;
+  justify-content: center;
+}

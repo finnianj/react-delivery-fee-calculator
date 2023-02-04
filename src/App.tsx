@@ -44,13 +44,12 @@ function App() {
     let distance_sur = 0
     let bulk_sur = 0
     let rush = false
-    let result = 0
 
     console.log("Calculating total...")
 
     cart = cart_value
 
-    if (cart <= 10) min_val_sur = 10 - cart
+    if (cart <= 10) min_val_sur = parseFloat((10 - cart).toFixed(2))
 
     if (delivery_distance === 0) {
       distance_sur = 1
@@ -69,23 +68,26 @@ function App() {
       rush = true
     }
 
+    if (min_val_sur) details_display.innerHTML = `<li><em>€${min_val_sur} - Minimum Value Surcharge</em>`
+    details_display.innerHTML = details_display.innerHTML + `<li><em>€${distance_sur} - Distance Surcharge</em>`
+    if (bulk_sur) details_display.innerHTML = details_display.innerHTML + `<li><em>€${bulk_sur} - Bulk Surcharge</em>`
+
     delivery_fee = min_val_sur + distance_sur + bulk_sur
 
-    details_display.innerHTML = `<li>€${distance_sur} - Distance Surcharge`
-
-    if (bulk_sur) details_display.innerHTML = details_display.innerHTML + `<li>€${bulk_sur} - Bulk Surcharge`
-    if (min_val_sur) details_display.innerHTML = details_display.innerHTML + `<li>€${min_val_sur} - Minimum Value Surcharge`
     if (rush) {
       delivery_fee = delivery_fee * 1.2
-      details_display.innerHTML = details_display.innerHTML + `<li>x1.2 - Rush Multiplier`
+      details_display.innerHTML = details_display.innerHTML + `<li><em>x1.2 - Rush Multiplier</em>`
     }
+
+    delivery_fee = parseFloat((delivery_fee).toFixed(2))
+    details_display.innerHTML = details_display.innerHTML + `<br></br><h4>€${delivery_fee} - Delivery Fee</h4>`
 
     if (delivery_fee >= 15) {
       delivery_fee = 15
       details_display.innerHTML = "€15 - Maximum Delivery Fee"
     }
-    result = parseFloat((cart + delivery_fee).toFixed(2))
-    setTotal(result);
+
+    setTotal(parseFloat((cart + delivery_fee).toFixed(2)));
   }
 
 
@@ -112,11 +114,11 @@ function App() {
       <div id="button-holder">
         <button id="calculate-button" className="btn btn-light" onClick={calculate}>Calculate <br></br> Delivery Price</button>
       </div>
+      <div id="details"></div>
       <div className="row-content">
         <h1>Total: </h1>
         <h1 id="total">€ {total}</h1>
       </div>
-      <div id="details"></div>
       </>
     </div>
   );

@@ -21,6 +21,9 @@ function Info() {
       <p>
         <em>P.S: I used to work for Wolt back in 2020 - Greetings to Marvin and Chris!</em>
       </p>
+      <div id="image_container">
+        <img src="https://avatars.githubusercontent.com/u/114495682?s=400&u=5783c5b3cf5432e8118558cbd87292459dd232dc&v=4" id="me" alt="a silly bandana"></img>
+      </div>
     </div>
   );
 }
