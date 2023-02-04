@@ -14,7 +14,7 @@ function Info() {
         But although I'm a rookie, I have never been so excited about learning. It's been pretty life-changing actually - I know this is what I want to do. I especially love Javascript and writing cool functions! 🪄
       </p>
       <p>
-        I know there will be some great programmers applying, so to be honest, I would be very grateful just to get some feedback on my code if you have the time. 🙇‍♂️
+        I'm sure there will be some great programmers applying, so to be honest, I would be very grateful just to get some feedback on my code if you have the time. 🙇‍♂️
       </p>
       <h2>Thank you 😊</h2>
 
