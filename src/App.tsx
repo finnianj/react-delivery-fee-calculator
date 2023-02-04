@@ -8,11 +8,13 @@ function App() {
   const [quantity, setQuantity] = React.useState<number>();
   const [time, setTime] = React.useState<String>("");
 
-  const [subtotal, setSubtotal] = React.useState<GLfloat>(0);
   const [total, setTotal] = React.useState<GLfloat>(0);
-  const [bulk_surcharge, setBulkSurcharge] = React.useState<GLfloat>(0);
-  const [delivery_fee, setDeliveryFee] = React.useState<GLfloat>(0);
-  const [surcharge, setSurcharge] = React.useState<GLfloat>(0);
+  // const [subtotal, setSubtotal] = React.useState<GLfloat>(0);
+  // const [bulk_surcharge, setBulkSurcharge] = React.useState<GLfloat>(0);
+  // const [delivery_fee, setDeliveryFee] = React.useState<GLfloat>(0);
+  // const [surcharge, setSurcharge] = React.useState<GLfloat>(0);
+
+  const details_display = document.getElementById('details') as HTMLElement
 
   const handleValue = (event: React.FormEvent<HTMLInputElement>) => {
     setCartValue(parseFloat(event.currentTarget.value))
@@ -27,50 +29,43 @@ function App() {
     setTime(event.currentTarget.value)
   }
 
-  const calculateExtras = () => {
-    let sub = 0
-    let sur = 0
-    let del_fee = 0
-    let bul_fee = 0
-    let total = 0
+  const calculate = () => {
+    details_display.innerHTML = ""
+    let sub_tot = 0
+    let min_val_sur = 0
+    let distance_sur = 0
+    let bulk_sur = 0
 
-    console.log("calculating total")
-    if (cart_value === undefined || cart_value === 0) {
+    console.log("Calculating total...")
+
+    if (!cart_value || !quantity ) {
+      window.alert("Cart value and item quantity must not be empty!")
       return
     }
 
-    setSubtotal(cart_value)
-    sub = cart_value
 
-    if (cart_value <= 10) {
-      setSurcharge(10 - cart_value)
-      sur = (10 - cart_value)
-    }
+    sub_tot = cart_value
 
-    setDeliveryFee(Math.ceil(delivery_distance / 500))
-    del_fee = (Math.ceil(delivery_distance / 500))
+    if (cart_value <= 10) min_val_sur = 10 - cart_value
+
+
 
     if (delivery_distance === 0) {
-      setDeliveryFee(1)
-      del_fee = 1
+      distance_sur = 1
+    } else {
+      distance_sur = (Math.ceil(delivery_distance / 500))
     }
 
 
-    if (quantity) {
-        if (quantity > 4 && quantity < 12) {
-          setBulkSurcharge((quantity - 4) * 0.5)
-          bul_fee = (quantity - 4) * 0.5
-        } else if (quantity >= 12) {
-          setBulkSurcharge((quantity - 4) * 0.5 + 1.2)
-          bul_fee = (quantity - 4) * 0.5 + 1.2
-        } else if (quantity <= 4) {
-          setBulkSurcharge(0)
-          bul_fee = 0
-        }
+
+    if (quantity > 4 && quantity <= 12) {
+      bulk_sur = (quantity - 4) * 0.5
+    } else if (quantity > 12) {
+      bulk_sur = (quantity - 4) * 0.5 + 1.2
     }
-    total = (sub + sur + del_fee + bul_fee)
-    console.log(sub, sur, del_fee, bul_fee)
-    setTotal(total);
+
+    setTotal(sub_tot + min_val_sur + distance_sur + bulk_sur);
+    details_display.innerHTML = `<li>Sub total: €${sub_tot} <li> Minimum Value Surcharge: € ${min_val_sur} <li> Distance Surcharge: €${distance_sur} <li> Bulk Surcharge: €${bulk_sur}`
   }
 
 
@@ -89,24 +84,19 @@ function App() {
         <h2>Delivery Distance (m)</h2> <input placeholder="Enter value..." onChange={handleDistance}></input>
       </div>
       <div className="row-content">
-        <h2>Amount of items</h2> <input placeholder="Enter value..." onChange={handleQuantity}></input>
+        <h2>Item Quantity</h2> <input placeholder="Enter value..." onChange={handleQuantity}></input>
       </div>
       <div className="row-content">
         <h2>Date & Time</h2><input type="datetime-local" onChange={handleTime}></input>
       </div>
       <div id="button-holder">
-        <button id="calculate-button" className="btn btn-light" onClick={calculateExtras}>Calculate <br></br> Delivery Price</button>
+        <button id="calculate-button" className="btn btn-light" onClick={calculate}>Calculate <br></br> Delivery Price</button>
       </div>
       <div className="row-content">
         <h1>Total: </h1>
         <h1 id="total">€ {total}</h1>
       </div>
-      Sub-total: €{subtotal} ---
-      Surcharge: €{surcharge} ---
-      Delivery Fee: €{delivery_fee} ---
-      Bulk Surcharge: €{bulk_surcharge} ---
-      Total: €{total} ---
-      Distance: {delivery_distance}
+      <div id="details"></div>
       </>
     </div>
   );
