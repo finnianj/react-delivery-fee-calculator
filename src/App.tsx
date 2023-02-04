@@ -6,13 +6,9 @@ function App() {
   const [cart_value, setCartValue] = React.useState<GLfloat>();
   const [delivery_distance, setDeliveryDistance] = React.useState<number>(0);
   const [quantity, setQuantity] = React.useState<number>();
-  const [time, setTime] = React.useState<String>("");
+  const [date, setDate] = React.useState<Date>();
 
   const [total, setTotal] = React.useState<GLfloat>(0);
-  // const [subtotal, setSubtotal] = React.useState<GLfloat>(0);
-  // const [bulk_surcharge, setBulkSurcharge] = React.useState<GLfloat>(0);
-  // const [delivery_fee, setDeliveryFee] = React.useState<GLfloat>(0);
-  // const [surcharge, setSurcharge] = React.useState<GLfloat>(0);
 
   const details_display = document.getElementById('details') as HTMLElement
 
@@ -25,30 +21,34 @@ function App() {
   const handleQuantity = (event: React.FormEvent<HTMLInputElement>) => {
     setQuantity(parseInt(event.currentTarget.value))
   }
-  const handleTime = (event: React.FormEvent<HTMLInputElement>) => {
-    setTime(event.currentTarget.value)
+  const handleDate = (event: React.FormEvent<HTMLInputElement>) => {
+    let date = new Date(event.currentTarget.value)
+    setDate(date)
   }
 
   const calculate = () => {
     details_display.innerHTML = ""
-    let sub_tot = 0
+    let cart = 0
+    let delivery_fee = 0
     let min_val_sur = 0
     let distance_sur = 0
     let bulk_sur = 0
+    let rush = false
 
     console.log("Calculating total...")
 
     if (!cart_value || !quantity ) {
-      window.alert("Cart value and item quantity must not be empty!")
+      window.alert("Cart value and item quantity must not be zero!")
+      return
+    } else if (cart_value >= 100) {
+      setTotal(cart_value);
+      details_display.innerHTML = "Free Delivery!"
       return
     }
 
+    cart = cart_value
 
-    sub_tot = cart_value
-
-    if (cart_value <= 10) min_val_sur = 10 - cart_value
-
-
+    if (cart <= 10) min_val_sur = 10 - cart
 
     if (delivery_distance === 0) {
       distance_sur = 1
@@ -56,16 +56,34 @@ function App() {
       distance_sur = (Math.ceil(delivery_distance / 500))
     }
 
-
-
     if (quantity > 4 && quantity <= 12) {
       bulk_sur = (quantity - 4) * 0.5
     } else if (quantity > 12) {
       bulk_sur = (quantity - 4) * 0.5 + 1.2
     }
 
-    setTotal(sub_tot + min_val_sur + distance_sur + bulk_sur);
-    details_display.innerHTML = `<li>Sub total: €${sub_tot} <li> Minimum Value Surcharge: € ${min_val_sur} <li> Distance Surcharge: €${distance_sur} <li> Bulk Surcharge: €${bulk_sur}`
+    if (date && date.getDay() === 5 && date.getHours() >= 15 && date.getHours() <= 19) {
+      console.log("Rush hour!")
+      rush = true
+    }
+
+    delivery_fee = min_val_sur + distance_sur + bulk_sur
+
+    details_display.innerHTML = `<li>€${distance_sur} - Distance Surcharge`
+
+    if (bulk_sur) details_display.innerHTML = details_display.innerHTML + `<li>€${bulk_sur} - Bulk Surcharge`
+    if (min_val_sur) details_display.innerHTML = details_display.innerHTML + `<li>€${min_val_sur} - Minimum Value Surcharge`
+    if (rush) {
+      delivery_fee = delivery_fee * 1.2
+      details_display.innerHTML = details_display.innerHTML + `<li>x1.2 - Rush Multiplier`
+    }
+
+    if (delivery_fee >= 15) {
+      delivery_fee = 15
+      details_display.innerHTML = "€15 - Maximum Delivery Fee"
+    }
+
+    setTotal(cart + delivery_fee);
   }
 
 
@@ -87,7 +105,7 @@ function App() {
         <h2>Item Quantity</h2> <input placeholder="Enter value..." onChange={handleQuantity}></input>
       </div>
       <div className="row-content">
-        <h2>Date & Time</h2><input type="datetime-local" onChange={handleTime}></input>
+        <h2>Date & Time</h2><input type="datetime-local" onChange={handleDate}></input>
       </div>
       <div id="button-holder">
         <button id="calculate-button" className="btn btn-light" onClick={calculate}>Calculate <br></br> Delivery Price</button>
