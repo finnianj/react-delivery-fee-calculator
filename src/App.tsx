@@ -27,6 +27,15 @@ function App() {
   }
 
   const calculate = () => {
+    if (!cart_value || !quantity ) {
+      window.alert("Cart value and item quantity must not be zero!")
+      return
+    } else if (cart_value >= 100) {
+      setTotal(cart_value);
+      details_display.innerHTML = "Free Delivery!"
+      return
+    }
+    
     details_display.innerHTML = ""
     let cart = 0
     let delivery_fee = 0
@@ -37,14 +46,6 @@ function App() {
 
     console.log("Calculating total...")
 
-    if (!cart_value || !quantity ) {
-      window.alert("Cart value and item quantity must not be zero!")
-      return
-    } else if (cart_value >= 100) {
-      setTotal(cart_value);
-      details_display.innerHTML = "Free Delivery!"
-      return
-    }
 
     cart = cart_value
 
