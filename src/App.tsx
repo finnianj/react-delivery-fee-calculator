@@ -78,7 +78,7 @@ function App() {
     }
 
     delivery_fee = parseFloat((delivery_fee).toFixed(2))
-    details_display.innerHTML = details_display.innerHTML + `<br></br><h4>€${delivery_fee} - Delivery Fee</h4>`
+    details_display.innerHTML = details_display.innerHTML + `<br><h4>€${delivery_fee} - Delivery Fee</h4>`
 
     if (delivery_fee >= 15) {
       delivery_fee = 15
@@ -113,9 +113,9 @@ function App() {
         <button id="calculate-button" className="btn btn-light" onClick={calculate}>Calculate <br></br> Delivery Price</button>
       </div>
       <div id="details"></div>
-      <div className="row-content">
+      <div className="row-content" id="total">
         <h1>Total: </h1>
-        <h1 id="total">€ {total}</h1>
+        <h1>€ {total}</h1>
       </div>
       </>
     </div>
