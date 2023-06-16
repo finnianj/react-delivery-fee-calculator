@@ -8,7 +8,7 @@ function Info() {
     <div id="info">
       <h1>Hello there! 👋</h1>
       <h2>This was a little React/Typescript gadget I made for a job application.</h2>
-      <h3><em><a href='/' target='_blank'>Here is my code</a></em></h3>
+      <h3><em><a href='https://github.com/finnianj/react-delivery-fee-calculator' target='_blank'>Here is my code</a></em></h3>
       <em>
         <p>
           Rules for calculating a delivery fee:
